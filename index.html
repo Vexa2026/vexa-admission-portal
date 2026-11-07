@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEXA ACADEMY Warri - Admission Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="form-container">
+    <div class="form-header">
+      <!-- Circular Academy Logo -->
+      <img src="logo.png" alt="VEXA ACADEMY Logo" class="academy-logo">
+      <h2>VEXA ACADEMY WARRI</h2>
+      <p>Student Registration & Admission Portal</p>
+      
+      <!-- Progress Bar Indicator -->
+      <div class="progress-bar">
+        <div class="step-indicator active" data-step="1">1. Personal</div>
+        <div class="step-indicator" data-step="2">2. Program</div>
+        <div class="step-indicator" data-step="3">3. Guardian & Photo</div>
+        <div class="step-indicator" data-step="4">4. Review & Submit</div>
+      </div>
+    </div>
+
+    <form id="registrationForm" novalidate>
+      
+      <!-- STEP 1: Personal Information -->
+      <div class="form-step active" data-content="1">
+        <h3>Personal Information</h3>
+        
+        <div class="form-group">
+          <label for="fullName">Full Name <span class="required">*</span></label>
+          <input type="text" id="fullName" name="fullName" placeholder="e.g. Jane Doe">
+          <span class="error-message" id="fullNameError"></span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email Address <span class="required">*</span></label>
+            <input type="email" id="email" name="email" placeholder="jane@example.com">
+            <span class="error-message" id="emailError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number <span class="required">*</span></label>
+            <input type="tel" id="phone" name="phone" placeholder="+234...">
+            <span class="error-message" id="phoneError"></span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="dob">Date of Birth <span class="required">*</span></label>
+            <input type="date" id="dob" name="dob">
+            <span class="error-message" id="dobError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="gender">Gender <span class="required">*</span></label>
+            <select id="gender" name="gender">
+              <option value="">Select Gender</option>
+              <option value="Female">Female</option>
+              <option value="Male">Male</option>
+              <option value="Other">Other</option>
+            </select>
+            <span class="error-message" id="genderError"></span>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="button" class="btn-next" onclick="nextStep(1)">Next Step</button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Program & Fee Details -->
+      <div class="form-step" data-content="2">
+        <h3>Program & Duration Selection</h3>
+
+        <div class="form-group">
+          <label for="program">Intended Program/Course <span class="required">*</span></label>
+          <select id="program" name="program" onchange="calculateFee()">
+            <option value="">Select a Program</option>
+            <option value="Adult Education">Adult Education</option>
+            <option value="Primary Foundation Program">Primary Foundation Program</option>
+            <option value="Junior Secondary Prep">Junior Secondary Prep</option>
+            <option value="Senior Secondary STEM Track">Senior Secondary STEM Track</option>
+            <option value="Digital Skills & Computer Science">Digital Skills & Computer Science</option>
+          </select>
+          <span class="error-message" id="programError"></span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="duration">Program Duration <span class="required">*</span></label>
+            <select id="duration" name="duration" onchange="calculateFee()">
+              <option value="">Select Duration</option>
+              <option value="1 Month">1 Month</option>
+              <option value="3 Months">3 Months</option>
+              <option value="6 Months">6 Months</option>
+              <option value="12 Months">12 Months (1 Year)</option>
+            </select>
+            <span class="error-message" id="durationError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="educationLevel">Current Education Level</label>
+            <input type="text" id="educationLevel" name="educationLevel" placeholder="e.g. Adult Learner, Primary 6, JSS 3">
+          </div>
+        </div>
+
+        <!-- Dynamic Tuition Fee Display Banner -->
+        <div class="fee-card" id="feeCard">
+          <div class="fee-title">Tuition Fee Breakdown</div>
+          <div class="fee-amount" id="feeDisplay">₦0.00</div>
+          <small class="fee-note">Rate: ₦10,000 per month</small>
+        </div>
+
+        <div class="button-group">
+          <button type="button" class="btn-prev" onclick="prevStep(2)">Previous</button>
+          <button type="button" class="btn-next" onclick="nextStep(2)">Next Step</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Guardian Details & Photo Upload -->
+      <div class="form-step" data-content="3">
+        <h3>Parent / Guardian & Document Upload</h3>
+
+        <div class="form-group">
+          <label for="guardianName">Guardian Full Name <span class="required">*</span></label>
+          <input type="text" id="guardianName" name="guardianName" placeholder="e.g. Mr. John Doe (Or 'Self' if Adult)">
+          <span class="error-message" id="guardianNameError"></span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="guardianPhone">Guardian Phone <span class="required">*</span></label>
+            <input type="tel" id="guardianPhone" name="guardianPhone" placeholder="+234...">
+            <span class="error-message" id="guardianPhoneError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="guardianEmail">Guardian Email</label>
+            <input type="email" id="guardianEmail" name="guardianEmail" placeholder="guardian@example.com">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="passportPhoto">Student Passport Photograph</label>
+          <input type="file" id="passportPhoto" name="passportPhoto" accept="image/*">
+          <small class="helper-text">Upload a clear passport-sized photo (JPG/PNG).</small>
+        </div>
+
+        <div class="button-group">
+          <button type="button" class="btn-prev" onclick="prevStep(3)">Previous</button>
+          <button type="button" class="btn-next" onclick="prepareReviewAndNext()">Review Application</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Review & Submit -->
+      <div class="form-step" data-content="4">
+        <h3>Review & Download Form</h3>
+        <p class="review-instruction">Review your details below. Clicking submit will open the print window to save your admission slip.</p>
+        
+        <div class="review-box" id="reviewSummary">
+          <!-- Dynamically populated review content -->
+        </div>
+
+        <div class="button-group">
+          <button type="button" class="btn-prev" onclick="prevStep(4)">Previous</button>
+          <button type="submit" id="submitBtn">Download / Print Form Slip</button>
+        </div>
+      </div>
+
+      <div id="statusMessage" class="status-message"></div>
+    </form>
+
+    <!-- SUCCESS & PAYMENT CHOICE SCREEN (Hidden until submission) -->
+    <div id="successScreen" style="display: none; text-align: center; padding: 10px 0;">
+      <div style="font-size: 48px; color: #2f855a; margin-bottom: 5px;">✅</div>
+      <h3 style="color: #1a365d; margin-bottom: 8px;">Form Processed Successfully!</h3>
+      <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">
+        Save or print your admission slip. 
+        <br><strong>Tracking ID:</strong> <span id="successAppId" style="color: #2b6cb0; font-weight: bold;"></span>
+      </p>
+
+      <div style="background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+        <p style="font-size: 0.95rem; font-weight: 600; color: #2b6cb0; margin-bottom: 10px;">Select Tuition Payment Method:</p>
+        <p style="font-size: 0.85rem; color: #666; margin-bottom: 15px;">Total Tuition Due: <strong id="successFee" style="color: #1a365d;"></strong></p>
+        
+        <div style="display: flex; gap: 10px; flex-direction: column;">
+          <!-- Manual OPay Payment Option -->
+          <button type="button" onclick="showOpayDetails()" style="background: #10B981; color: white; padding: 12px; border-radius: 6px; border: none; font-weight: 600; cursor: pointer;">
+            📱 Pay Manually via OPay Bank
+          </button>
+          
+          <!-- Direct WhatsApp Dispatch Option -->
+          <button type="button" onclick="sendToWhatsApp()" style="background: #25D366; color: white; padding: 12px; border-radius: 6px; border: none; font-weight: 600; cursor: pointer;">
+            💬 Send Details to WhatsApp Business
+          </button>
+        </div>
+      </div>
+
+      <!-- OPAY DETAILS BOX -->
+      <div id="opayBox" style="display: none; background: #f0fff4; border: 1px solid #c6f6d5; border-radius: 8px; padding: 15px; margin-bottom: 20px; text-align: left;">
+        <p style="font-size: 0.9rem; color: #22543d; font-weight: bold; margin-bottom: 8px;">OPay Bank Transfer Details:</p>
+        <p style="font-size: 0.85rem; margin: 3px 0;">Bank: <strong>OPay</strong></p>
+        <p style="font-size: 0.85rem; margin: 3px 0;">Account Number: <strong style="color: #2b6cb0;">[9166995244]</strong></p>
+        <p style="font-size: 0.85rem; margin: 3px 0;">Account Name: <strong>Ezekiel Ntui Ogar</strong></p>
+        <p style="font-size: 0.8rem; color: #e53e3e; margin-top: 8px;"><em>⚠️ Important: Use your Tracking ID as your transfer narration/remark.</em></p>
+        
+        <a href="https://web.opayweb.com/" target="_blank" style="background: #047857; color: white; padding: 10px; border-radius: 5px; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: block; text-align: center; margin-top: 12px;">
+          Open OPay Web / App to Transfer
+        </a>
+
+        <button type="button" onclick="sendToWhatsApp()" style="background: #25D366; color: white; padding: 10px; border-radius: 5px; border: none; font-size: 0.85rem; font-weight: 600; cursor: pointer; width: 100%; margin-top: 10px;">
+          Done Transferring? Send Details to WhatsApp
+        </button>
+      </div>
+
+      <button type="button" onclick="resetForm()" style="background: #e2e8f0; color: #4a5568; padding: 8px; border-radius: 6px; border: none; font-size: 0.85rem; font-weight: 600; cursor: pointer;">
+        Start New Application
+      </button>
+    </div>
+  </div>
+
+  <!-- Printable PDF Slip Template (Visible only when printing) -->
+  <div id="pdfTemplate" style="display: none;">
+    <div style="text-align: center; border-bottom: 2px solid #2b6cb0; padding-bottom: 15px; margin-bottom: 20px;">
+      <img src="logo.png" alt="Logo" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; margin-bottom: 8px;">
+      <h2 style="color: #2b6cb0; margin: 0; font-size: 20px;">VEXA ACADEMY WARRI</h2>
+      <p style="font-size: 13px; color: #666; margin: 3px 0 0 0;">Official Student Registration & Fee Invoice</p>
+    </div>
+    
+    <div style="display: flex; justify-content: space-between; margin-bottom: 15px; background: #edf2f7; padding: 12px; border-radius: 4px;">
+      <div>
+        <p style="margin: 0; font-size: 13px;"><strong>Tracking ID:</strong> <span id="pdfAppId"></span></p>
+        <p style="margin: 4px 0 0 0; font-size: 13px;"><strong>Date:</strong> <span id="pdfDate"></span></p>
+      </div>
+      <div style="text-align: right;">
+        <p style="margin: 0; font-size: 13px;"><strong>Tuition Fee:</strong> <span id="pdfFee" style="color: #2b6cb0; font-weight: bold;"></span></p>
+        <p style="margin: 4px 0 0 0; font-size: 13px;"><strong>Rate:</strong> ₦10,000 / Month</p>
+      </div>
+    </div>
+
+    <table style="width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 15px;">
+      <tr><td style="padding: 7px; border-bottom: 1px solid #eee; width: 35%;"><strong>Full Name:</strong></td><td style="padding: 7px; border-bottom: 1px solid #eee;" id="pdfFullName"></td></tr>
+      <tr><td style="padding: 7px; border-bottom: 1px solid #eee;"><strong>Email:</strong></td><td style="padding: 7px; border-bottom: 1px solid #eee;" id="pdfEmail"></td></tr>
+      <tr><td style="padding: 7px; border-bottom: 1px solid #eee;"><strong>Phone:</strong></td><td style="padding: 7px; border-bottom: 1px solid #eee;" id="pdfPhone"></td></tr>
+      <tr><td style="padding: 7px; border-bottom: 1px solid #eee;"><strong>Date of Birth:</strong></td><td style="padding: 7px; border-bottom: 1px solid #eee;" id="pdfDob"></td></tr>
+      <tr><td style="padding: 7px; border-bottom: 1px solid #eee;"><strong>Gender:</strong></td><td style="padding: 7px; border-bottom: 1px solid #eee;" id="pdfGender"></td></tr>
+      <tr><td style="padding: 7px; border-bottom: 1px solid #eee;"><strong>Program Selected:</strong></td><td style="padding: 7px; border-bottom: 1px solid #eee;" id="pdfProgram"></td></tr>
+      <tr><td style="padding: 7px; border-bottom: 1px solid #eee;"><strong>Duration:</strong></td><td style="padding: 7px; border-bottom: 1px solid #eee;" id="pdfDuration"></td></tr>
+      <tr><td style="padding: 7px; border-bottom: 1px solid #eee;"><strong>Current Level:</strong></td><td style="padding: 7px; border-bottom: 1px solid #eee;" id="pdfEducationLevel"></td></tr>
+      <tr><td style="padding: 7px; border-bottom: 1px solid #eee;"><strong>Guardian Name:</strong></td><td style="padding: 7px; border-bottom: 1px solid #eee;" id="pdfGuardianName"></td></tr>
+      <tr><td style="padding: 7px; border-bottom: 1px solid #eee;"><strong>Guardian Phone:</strong></td><td style="padding: 7px; border-bottom: 1px solid #eee;" id="pdfGuardianPhone"></td></tr>
+    </table>
+
+    <div style="margin-top: 20px; text-align: center; font-size: 11px; color: #718096; border-top: 1px solid #eee; padding-top: 10px;">
+      <p>VEXA Academy Warri — Admissions Department</p>
+      <p>Pay Tuition via OPay Bank using your Tracking ID as payment reference.</p>
+    </div>
+  </div>
+
+  <!-- Print-only CSS rules -->
+  <style>
+    @media print {
+      body * { visibility: hidden; }
+      #pdfTemplate, #pdfTemplate * { visibility: visible; }
+      #pdfTemplate { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
+    }
+  </style>
+
+  <script src="script.js"></script>
+</body>
+</html>
